@@ -1,0 +1,20 @@
+[project]
+name = "logistiscout-back"
+version = "0.1.0"
+description = "Backend for logistiscout app"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "sqlalchemy",
+    "psycopg2-binary",
+    "pydantic",
+    "pytest",
+    "requests",
+    "httpx"
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
