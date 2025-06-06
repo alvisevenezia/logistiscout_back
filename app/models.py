@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, String, Date, DateTime, Text, JSON
+from sqlalchemy.dialects.postgresql import ARRAY
 from .database import Base
 
 class Tente(Base):
