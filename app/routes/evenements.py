@@ -18,7 +18,14 @@ def list_evenements(db: Session = Depends(get_db)):
 
 @router.post("/evenements", response_model=schemas.Evenement, status_code=201)
 def create_evenement(evenement: schemas.EvenementCreate, db: Session = Depends(get_db)):
-    db_evenement = models.Evenement(**evenement.dict(exclude={"tentesAssociees"}))
+    db_evenement = models.Evenement(
+        nom=evenement.nom,
+        date=evenement.date,
+        dateFin=evenement.dateFin,
+        type=evenement.type,
+        tentesAssociees=evenement.tentesAssociees or [],
+        unites=evenement.unites or []
+    )
     db.add(db_evenement)
     db.commit()
     db.refresh(db_evenement)

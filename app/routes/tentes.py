@@ -47,6 +47,8 @@ def delete_tente(tente_id: int, db: Session = Depends(get_db)):
     db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id).first()
     if not db_tente:
         raise HTTPException(status_code=404, detail="Tente non trouvée")
+    # Supprimer tous les contrôles associés à la tente
+    db.query(models.Controle).filter(models.Controle.tenteId == tente_id).delete()
     db.delete(db_tente)
     db.commit()
     return

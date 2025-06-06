@@ -43,9 +43,11 @@ class Tente(TenteBase):
 class EvenementBase(BaseModel):
     nom: str
     type: str
-    date: date
-    dateFin: date
+    date: datetime
+    dateFin: datetime
     tentesAssociees: Optional[List[int]] = None
+    unites: Optional[List[int]] = None
+    
 
 class EvenementCreate(EvenementBase):
     pass

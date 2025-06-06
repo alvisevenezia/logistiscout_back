@@ -13,12 +13,13 @@ class Tente(Base):
     unitePreferee = Column(String)
 
 class Evenement(Base):
-    __tablename__ = "evenements"
-    id = Column(Integer, primary_key=True, index=True)
+    id = Column(Integer, primary_key=True)
     nom = Column(String)
+    date = Column(DateTime)
+    dateFin = Column(DateTime)
     type = Column(String)
-    date = Column(Date)
-    dateFin = Column(Date)
+    tentesAssociees = Column(ARRAY(Integer))
+    unites = Column(ARRAY(Integer))
 
 class Reservation(Base):
     __tablename__ = "reservations"
