@@ -21,6 +21,7 @@ def list_controles(tenteId: Optional[int] = Query(None), db: Session = Depends(g
 
 @router.post("/controles", response_model=schemas.Controle, status_code=201)
 def create_controle(controle: schemas.Controle, db: Session = Depends(get_db)):
+    print("Reçu pour création contrôle :", controle.dict())
     db_controle = models.Controle(**controle.dict())
     db.add(db_controle)
     db.commit()
