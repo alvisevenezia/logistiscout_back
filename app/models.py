@@ -14,6 +14,7 @@ class Tente(Base):
     unitePreferee = Column(String)
 
 class Evenement(Base):
+    __tablename__ = "evenements"
     id = Column(Integer, primary_key=True)
     nom = Column(String)
     date = Column(DateTime)
