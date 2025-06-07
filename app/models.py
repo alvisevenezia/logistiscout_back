@@ -46,8 +46,8 @@ class Controle(Base):
 
 class Groupe(Base):
     __tablename__ = "groupes"
-    id = Column(String, primary_key=True, index=True)
-    nom = Column(String)
-    membres = Column(ARRAY(String))
-    mdp = Column(String)  # mot de passe du groupe
-    idUnite = Column(Integer, autoincrement=True, unique=True, index=True)  # nouvel identifiant d'unité
+    id = Column(Integer, primary_key=True, autoincrement=True, index=True)  # id auto-incrémenté
+    userlogin = Column(String, unique=True, nullable=False)  # identifiant de connexion du groupe
+    mdp = Column(String, nullable=False)  # mot de passe du groupe
+    nom = Column(String, nullable=False)  # nom du groupe
+    membres = Column(ARRAY(String))  # optionnel, liste des membres

@@ -403,6 +403,10 @@ components:
       type: object
       properties:
         id:
+          type: integer
+        userlogin:
+          type: string
+        mdp:
           type: string
         nom:
           type: string
@@ -410,10 +414,6 @@ components:
           type: array
           items:
             type: string
-        mdp:
-          type: string
-        idUnite:
-          type: string
     Tente:
       type: object
       properties:

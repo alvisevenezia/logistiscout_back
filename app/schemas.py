@@ -4,9 +4,10 @@ from datetime import date, datetime
 
 # Groupe schemas
 class GroupeBase(BaseModel):
+    userlogin: str
+    mdp: str
     nom: str
     membres: Optional[List[str]] = None
-    mdp: str
     idUnite: Optional[str] = None
 
 class GroupeCreate(GroupeBase):
@@ -16,7 +17,7 @@ class GroupeUpdate(GroupeBase):
     pass
 
 class Groupe(GroupeBase):
-    id: str
+    id: int
     class Config:
         from_attributes = True
 
