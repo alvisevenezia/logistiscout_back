@@ -410,6 +410,8 @@ components:
           type: array
           items:
             type: string
+        mdp:
+          type: string
     Tente:
       type: object
       properties:

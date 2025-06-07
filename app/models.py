@@ -41,3 +41,10 @@ class Controle(Base):
     date = Column(DateTime)
     checklist = Column(JSON)
     remarques = Column(Text)
+
+class Groupe(Base):
+    __tablename__ = "groupes"
+    id = Column(String, primary_key=True, index=True)
+    nom = Column(String)
+    membres = Column(ARRAY(String))
+    mdp = Column(String)  # mot de passe du groupe

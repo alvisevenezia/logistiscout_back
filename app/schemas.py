@@ -6,6 +6,7 @@ from datetime import date, datetime
 class GroupeBase(BaseModel):
     nom: str
     membres: Optional[List[str]] = None
+    mdp: str
 
 class GroupeCreate(GroupeBase):
     pass
