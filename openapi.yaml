@@ -429,6 +429,10 @@ components:
           type: string
         unitePreferee:
           type: string
+        couleurs:
+          type: array
+          items:
+            type: string
     Evenement:
       type: object
       properties:

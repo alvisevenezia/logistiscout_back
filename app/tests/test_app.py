@@ -11,12 +11,14 @@ def test_create_tente():
         "remarques": "Aucune",
         "nbPlaces": 4,
         "typeTente": "dôme",
-        "unitePreferee": "A"
+        "unitePreferee": "A",
+        "couleurs": ["bleu", "vert"]
     })
     assert response.status_code == 201
     data = response.json()
     assert data["nom"] == "Tente Test"
     assert data["etat"] == "neuve"
+    assert data["couleurs"] == ["bleu", "vert"]
 
 def test_list_tentes():
     response = client.get("/tentes", params={"groupeId": "test"})
@@ -36,7 +38,8 @@ def test_update_tente():
         "remarques": "",
         "nbPlaces": 2,
         "typeTente": "tunnel",
-        "unitePreferee": "B"
+        "unitePreferee": "B",
+        "couleurs": ["rouge"]
     })
     tente_id = create_resp.json()["id"]
     # Met à jour la tente
@@ -47,10 +50,12 @@ def test_update_tente():
         "remarques": "Réparée récemment",
         "nbPlaces": 2,
         "typeTente": "tunnel",
-        "unitePreferee": "B"
+        "unitePreferee": "B",
+        "couleurs": ["jaune", "bleu"]
     })
     assert update_resp.status_code == 200
     assert update_resp.json()["nom"] == "Tente Modifiée"
+    assert update_resp.json()["couleurs"] == ["jaune", "bleu"]
 
 def test_delete_tente():
     # Crée une tente à supprimer
@@ -61,7 +66,8 @@ def test_delete_tente():
         "remarques": "",
         "nbPlaces": 3,
         "typeTente": "igloo",
-        "unitePreferee": "C"
+        "unitePreferee": "C",
+        "couleurs": ["noir"]
     })
     tente_id = create_resp.json()["id"]
     delete_resp = client.delete(f"/tentes/{tente_id}")

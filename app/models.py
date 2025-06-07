@@ -12,6 +12,7 @@ class Tente(Base):
     nbPlaces = Column(Integer)
     typeTente = Column(String)
     unitePreferee = Column(String)
+    couleurs = Column(ARRAY(String))
 
 class Evenement(Base):
     __tablename__ = "evenements"
