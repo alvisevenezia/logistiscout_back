@@ -36,6 +36,9 @@ def update_tente(tente_id: int, tente: schemas.TenteUpdate, db: Session = Depend
     db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id).first()
     if not db_tente:
         raise HTTPException(status_code=404, detail="Tente non trouvée")
+    # Vérifie que le groupeId envoyé correspond à celui de la tente
+    if hasattr(tente, 'groupeId') and tente.groupeId is not None and db_tente.groupeId != tente.groupeId:
+        raise HTTPException(status_code=403, detail="Groupe non autorisé à modifier cette tente")
     for key, value in tente.dict(exclude_unset=True).items():
         setattr(db_tente, key, value)
     db.commit()

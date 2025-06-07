@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, Text, JSON
+from sqlalchemy import Column, Integer, String, Date, DateTime, Text, JSON, Boolean
 from sqlalchemy.dialects.postgresql import ARRAY
 from .database import Base
 
@@ -14,7 +14,7 @@ class Tente(Base):
     unitePreferee = Column(String)
     couleurs = Column(ARRAY(String))
     groupeId = Column(String)
-    estIntegree = Column(Integer, default=0)  # 0 = False, 1 = True
+    estIntegree = Column(Boolean, default=False)  # 0 = False, 1 = True
 
 class Evenement(Base):
     __tablename__ = "evenements"
