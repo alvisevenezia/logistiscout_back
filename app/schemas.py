@@ -7,6 +7,7 @@ class GroupeBase(BaseModel):
     nom: str
     membres: Optional[List[str]] = None
     mdp: str
+    idUnite: Optional[str] = None
 
 class GroupeCreate(GroupeBase):
     pass

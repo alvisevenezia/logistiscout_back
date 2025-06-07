@@ -50,3 +50,4 @@ class Groupe(Base):
     nom = Column(String)
     membres = Column(ARRAY(String))
     mdp = Column(String)  # mot de passe du groupe
+    idUnite = Column(String)  # nouvel identifiant d'unité

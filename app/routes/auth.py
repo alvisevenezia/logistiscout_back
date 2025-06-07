@@ -21,6 +21,6 @@ def login(payload: LoginRequest = Body(...), db: Session = Depends(get_db)):
     # Vérification du groupe et du mot de passe dans la BDD
     groupe = db.query(models.Groupe).filter(models.Groupe.id == payload.groupe_id).first()
     if groupe and hasattr(groupe, "mdp") and groupe.mdp == payload.groupe_mdp:
-        return {"token": "fake-token"}
+        return {"token": "fake-token", "idUnite": groupe.idUnite}
     else:
         raise HTTPException(status_code=401, detail="Identifiants invalides")
