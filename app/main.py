@@ -13,6 +13,12 @@ app = FastAPI()
 async def log_requests(request: Request, call_next):
     logging.info("🟢 Middleware actif : interception d'une requête")
     logging.info(f"➡️ {request.method} {request.url}")
+    logging.info(f"Headers: {request.headers}")
+    if request.method == "POST" or request.method == "PUT":
+        body = await request.body()
+        logging.info(f"Body: {body.decode('utf-8')}")
+    else:
+        logging.info("Pas de corps pour cette requête")
     response = await call_next(request)
     logging.info(f"⬅️ Réponse status: {response.status_code}")
     return response
