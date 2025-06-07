@@ -13,6 +13,7 @@ class Tente(Base):
     typeTente = Column(String)
     unitePreferee = Column(String)
     couleurs = Column(ARRAY(String))
+    groupeId = Column(String)
 
 class Evenement(Base):
     __tablename__ = "evenements"

@@ -433,6 +433,8 @@ components:
           type: array
           items:
             type: string
+        groupeId:
+          type: string
     Evenement:
       type: object
       properties:

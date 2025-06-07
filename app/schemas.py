@@ -28,6 +28,7 @@ class TenteBase(BaseModel):
     typeTente: Optional[str]
     unitePreferee: Optional[str]
     couleurs: Optional[List[str]] = None
+    groupeId: str
 
 class TenteCreate(TenteBase):
     pass
