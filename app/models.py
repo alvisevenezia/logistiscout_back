@@ -14,6 +14,7 @@ class Tente(Base):
     unitePreferee = Column(String)
     couleurs = Column(ARRAY(String))
     groupeId = Column(String)
+    estIntegree = Column(Integer, default=0)  # 0 = False, 1 = True
 
 class Evenement(Base):
     __tablename__ = "evenements"
@@ -24,6 +25,7 @@ class Evenement(Base):
     type = Column(String)
     tentesAssociees = Column(ARRAY(Integer))
     unites = Column(ARRAY(Integer))
+    groupeId = Column(String)
 
 class Reservation(Base):
     __tablename__ = "reservations"

@@ -437,6 +437,8 @@ components:
             type: string
         groupeId:
           type: string
+        estIntegree:
+          type: boolean
     Evenement:
       type: object
       properties:
@@ -456,6 +458,12 @@ components:
           type: array
           items:
             type: integer
+        unites:
+          type: array
+          items:
+            type: integer
+        groupeId:
+          type: string
     Reservation:
       type: object
       properties:
