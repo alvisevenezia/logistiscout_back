@@ -102,3 +102,41 @@ class Controle(ControleBase):
     id: int
     class Config:
         from_attributes = True
+
+# Menu schemas
+class MenuBase(BaseModel):
+    nom: str
+    description: Optional[str] = None
+    ingredients: Optional[List[dict]] = None
+    instructions: Optional[str] = None
+    type_repas: Optional[str] = None
+
+class MenuCreate(MenuBase):
+    pass
+
+class MenuUpdate(MenuBase):
+    pass
+
+class Menu(MenuBase):
+    id: int
+    class Config:
+        from_attributes = True
+
+# EventMenu schemas
+class EventMenuBase(BaseModel):
+    event_id: int
+    menu_id: int
+    date: date
+    type_repas: str
+    quantite_personnes: Optional[int] = None
+
+class EventMenuCreate(EventMenuBase):
+    pass
+
+class EventMenuUpdate(EventMenuBase):
+    pass
+
+class EventMenu(EventMenuBase):
+    id: int
+    class Config:
+        from_attributes = True

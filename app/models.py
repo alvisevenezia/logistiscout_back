@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, DateTime, Text, JSON, Boolean
+from sqlalchemy import Column, Integer, String, Date, DateTime, Text, JSON, Boolean, ForeignKey
 from sqlalchemy.dialects.postgresql import ARRAY
 from .database import Base
 
@@ -51,3 +51,22 @@ class Groupe(Base):
     mdp = Column(String, nullable=False)  # mot de passe du groupe
     nom = Column(String, nullable=False)  # nom du groupe
     membres = Column(ARRAY(String))  # optionnel, liste des membres
+
+class Menu(Base):
+    __tablename__ = "menus"
+    id = Column(Integer, primary_key=True, index=True)
+    nom = Column(String, nullable=False)
+    description = Column(Text)
+    # ingredients devient une liste de dicts (nom, quantite, unite)
+    ingredients = Column(JSON)  # [{"nom": "pâtes", "quantite": 100, "unite": "g"}, ...]
+    instructions = Column(Text)
+    type_repas = Column(String)  # 'petit-dej', 'déjeuner', 'dîner'
+
+class EventMenu(Base):
+    __tablename__ = "event_menus"
+    id = Column(Integer, primary_key=True, index=True)
+    event_id = Column(Integer, ForeignKey("evenements.id"), nullable=False)
+    menu_id = Column(Integer, ForeignKey("menus.id"), nullable=False)
+    date = Column(Date, nullable=False)
+    type_repas = Column(String, nullable=False)
+    quantite_personnes = Column(Integer)  # optionnel, pour override

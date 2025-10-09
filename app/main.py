@@ -1,3 +1,4 @@
+from app.routes import menus
 from fastapi import FastAPI, HTTPException, Depends, Query, Request
 from sqlalchemy.orm import Session
 from typing import List, Optional
@@ -29,3 +30,4 @@ app.include_router(tentes.router)
 app.include_router(evenements.router)
 app.include_router(reservations.router)
 app.include_router(controles.router)
+app.include_router(menus.router)
