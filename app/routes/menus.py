@@ -19,7 +19,7 @@ def list_menus(db: Session = Depends(get_db)):
 
 @router.post("/menus", response_model=schemas.Menu, status_code=201)
 def create_menu(menu: schemas.MenuCreate, db: Session = Depends(get_db)):
-    # Vérifie que chaque ingrédient est bien un dict avec nom, quantite, unite
+    # Validation ingrédients (doit être une liste de dicts avec nom, quantite, unite)
     if menu.ingredients:
         for ing in menu.ingredients:
             if not all(k in ing for k in ("nom", "quantite", "unite")):

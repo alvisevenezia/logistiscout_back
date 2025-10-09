@@ -55,12 +55,13 @@ class Groupe(Base):
 class Menu(Base):
     __tablename__ = "menus"
     id = Column(Integer, primary_key=True, index=True)
-    nom = Column(String, nullable=False)
-    description = Column(Text)
-    # ingredients devient une liste de dicts (nom, quantite, unite)
-    ingredients = Column(JSON)  # [{"nom": "pâtes", "quantite": 100, "unite": "g"}, ...]
-    instructions = Column(Text)
-    type_repas = Column(String)  # 'petit-dej', 'déjeuner', 'dîner'
+    title = Column(String, nullable=False)  # anciennement nom
+    description = Column(Text)  # court
+    instructions = Column(Text)  # texte complet de préparation
+    category = Column(String)  # ex: 'plat', 'dessert', etc.
+    ingredients = Column(JSON)  # [{"nom": ..., "quantite": ..., "unite": ...}]
+    allergens = Column(ARRAY(String))  # set d'allergènes
+    tags = Column(ARRAY(String))  # set de tags
 
 class EventMenu(Base):
     __tablename__ = "event_menus"

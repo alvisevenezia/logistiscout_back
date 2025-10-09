@@ -103,13 +103,15 @@ class Controle(ControleBase):
     class Config:
         from_attributes = True
 
-# Menu schemas
+# Menu schemas adaptés à la structure Recipe Flutter
 class MenuBase(BaseModel):
-    nom: str
+    title: str
     description: Optional[str] = None
-    ingredients: Optional[List[dict]] = None
     instructions: Optional[str] = None
-    type_repas: Optional[str] = None
+    category: Optional[str] = None
+    ingredients: Optional[List[dict]] = None  # [{nom, quantite, unite}]
+    allergens: Optional[List[str]] = None
+    tags: Optional[List[str]] = None
 
 class MenuCreate(MenuBase):
     pass
