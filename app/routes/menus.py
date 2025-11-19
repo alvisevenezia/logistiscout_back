@@ -64,6 +64,7 @@ def delete_menu(menu_id: int, db: Session = Depends(get_db)):
 # CRUD EventMenu (menus planifiés)
 @router.get("/event_menus", response_model=List[schemas.EventMenu])
 def list_event_menus(event_id: int = Query(...), db: Session = Depends(get_db)):
+    # Retourne tous les EventMenu (avec leur id) pour l'événement demandé
     return db.query(models.EventMenu).filter(models.EventMenu.event_id == event_id).all()
 
 @router.post("/event_menus", response_model=schemas.EventMenu, status_code=201)
