@@ -6,7 +6,6 @@ class Tente(Base):
     __tablename__ = "tentes"
     id = Column(Integer, primary_key=True, index=True)
     nom = Column(String)
-    uniteId = Column(Integer)
     etat = Column(String)
     remarques = Column(Text)
     nbPlaces = Column(Integer)
