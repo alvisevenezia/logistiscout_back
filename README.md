@@ -189,3 +189,10 @@ MIT License
 - Ajouter un endpoint pour calculer automatiquement la liste de courses d'un événement.
 - Ajouter des tags/allergènes sur les menus.
 - Gérer les quantités spécifiques par repas ou par groupe.
+
+
+## Pour run
+
+```bash
+uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```

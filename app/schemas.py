@@ -23,7 +23,6 @@ class Groupe(GroupeBase):
 # Tente schemas
 class TenteBase(BaseModel):
     nom: str
-    uniteId: Optional[int]
     etat: str
     remarques: Optional[str]
     nbPlaces: Optional[int]
