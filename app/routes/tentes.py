@@ -29,15 +29,15 @@ def create_tente(tente: schemas.TenteCreate, db: Session = Depends(get_db)):
     return db_tente
 
 @router.get("/tentes/{tente_id}", response_model=schemas.Tente)
-def get_tente(tente_id: int, groupeId: str = Query(...), db: Session = Depends(get_db)):
-    tente = db.query(models.Tente).filter(models.Tente.id == tente_id, models.Tente.groupeId == groupeId).first()
+def get_tente(tente_id: int, db: Session = Depends(get_db)):
+    tente = db.query(models.Tente).filter(models.Tente.id == tente_id).first()
     if not tente:
         raise HTTPException(status_code=404, detail="Tente non trouvée ou accès refusé")
     return tente
 
 @router.put("/tentes/{tente_id}", response_model=schemas.Tente)
-def update_tente(tente_id: int, tente: schemas.TenteUpdate, groupeId: str = Query(...), db: Session = Depends(get_db)):
-    db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id, models.Tente.groupeId == groupeId).first()
+def update_tente(tente_id: int, tente: schemas.TenteUpdate, db: Session = Depends(get_db)):
+    db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id).first()
     if not db_tente:
         raise HTTPException(status_code=404, detail="Tente non trouvée ou accès refusé")
     for key, value in tente.dict(exclude_unset=True).items():
@@ -47,8 +47,8 @@ def update_tente(tente_id: int, tente: schemas.TenteUpdate, groupeId: str = Quer
     return db_tente
 
 @router.delete("/tentes/{tente_id}", status_code=204)
-def delete_tente(tente_id: int, groupeId: str = Query(...), db: Session = Depends(get_db)):
-    db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id, models.Tente.groupeId == groupeId).first()
+def delete_tente(tente_id: int, db: Session = Depends(get_db)):
+    db_tente = db.query(models.Tente).filter(models.Tente.id == tente_id).first()
     if not db_tente:
         raise HTTPException(status_code=404, detail="Tente non trouvée ou accès refusé")
     db.query(models.Controle).filter(models.Controle.tenteId == tente_id).delete()
