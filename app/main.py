@@ -1,4 +1,4 @@
-from app.routes import menus
+from .routes.v1 import menus
 from fastapi import FastAPI, HTTPException, Depends, Query, Request
 from sqlalchemy.orm import Session
 from typing import List, Optional
