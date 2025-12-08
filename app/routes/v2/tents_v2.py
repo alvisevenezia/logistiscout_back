@@ -6,7 +6,7 @@ from typing import List
 
 from app import models, schemas
 from app.database import get_db
-from app.deps import get_current_groupe  # 🔑 pour récupérer le groupe depuis le token
+from app.routes.v2.deps import get_current_groupe  # 🔑 pour récupérer le groupe depuis le token
 
 router = APIRouter()
 
