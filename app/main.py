@@ -27,7 +27,7 @@ async def log_requests(request: Request, call_next):
 
 # Include routers for all endpoints
 app.include_router(auth.router)
-app.include_router(auth_v2.router)
+app.include_router(auth_v2.router, prefix="/v2")
 app.include_router(tentes.router)
 app.include_router(evenements.router)
 app.include_router(reservations.router)

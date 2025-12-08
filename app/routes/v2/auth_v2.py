@@ -8,7 +8,7 @@ from app.security import verify_password, create_access_token, hash_password, AC
 
 router = APIRouter()
 
-@router.post("/v2/auth/login")
+@router.post("/auth/login")
 def login(payload: LoginRequest = Body(...), db: Session = Depends(get_db)):
     groupe = (
         db.query(models.Groupe)
@@ -38,7 +38,7 @@ def login(payload: LoginRequest = Body(...), db: Session = Depends(get_db)):
     }
 
 
-@router.post("/v2/auth/create_group", response_model=schemas.Groupe, status_code=201)
+@router.post("/auth/create_group", response_model=schemas.Groupe, status_code=201)
 def create_group(groupe: schemas.GroupeCreate, db: Session = Depends(get_db)):
 
     if db.query(models.Groupe).filter(models.Groupe.userlogin == groupe.userlogin).first():
