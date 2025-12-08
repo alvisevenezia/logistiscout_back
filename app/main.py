@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from . import models, schemas, database
 from .routes.v1 import tentes, evenements, reservations, controles, auth
-from .routes.v2 import auth_v2
+from .routes.v2 import auth_v2, tentes_v2
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -29,6 +29,7 @@ async def log_requests(request: Request, call_next):
 app.include_router(auth.router)
 app.include_router(auth_v2.router, prefix="/v2")
 app.include_router(tentes.router)
+app.include_router(tentes_v2.router, prefix="/v2")
 app.include_router(evenements.router)
 app.include_router(reservations.router)
 app.include_router(controles.router)
