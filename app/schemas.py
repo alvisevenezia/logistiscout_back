@@ -30,7 +30,7 @@ class TenteBase(BaseModel):
     typeTente: Optional[str]
     unitePreferee: Optional[str]
     couleurs: Optional[List[str]] = None
-    groupeId: Optional[str] = None
+    groupeId: int
     estIntegree: bool = False
 
 class TenteCreate(TenteBase):
@@ -52,7 +52,7 @@ class EvenementBase(BaseModel):
     dateFin: datetime
     tentesAssociees: Optional[List[int]] = None
     unites: Optional[List[int]] = None
-    groupeId: Optional[str] = None
+    groupeId: int
     
 
 class EvenementCreate(EvenementBase):

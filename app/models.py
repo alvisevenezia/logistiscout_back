@@ -12,7 +12,7 @@ class Tente(Base):
     typeTente = Column(String)
     unitePreferee = Column(String)
     couleurs = Column(ARRAY(String))
-    groupeId = Column(String)
+    groupeId = Column(Integer, ForeignKey("groupes.id"), index=True)
     estIntegree = Column(Boolean, default=False)  # 0 = False, 1 = True
 
 class Evenement(Base):
@@ -24,7 +24,7 @@ class Evenement(Base):
     type = Column(String)
     tentesAssociees = Column(ARRAY(Integer))
     unites = Column(ARRAY(Integer))
-    groupeId = Column(String)
+    groupeId = Column(Integer, ForeignKey("groupes.id"), index=True)
 
 class Reservation(Base):
     __tablename__ = "reservations"
