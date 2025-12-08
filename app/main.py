@@ -3,7 +3,8 @@ from fastapi import FastAPI, HTTPException, Depends, Query, Request
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from . import models, schemas, database
-from .routes import tentes, evenements, reservations, controles, auth
+from .routes.v1 import tentes, evenements, reservations, controles, auth
+from .routes.v2 import auth_v2
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +27,7 @@ async def log_requests(request: Request, call_next):
 
 # Include routers for all endpoints
 app.include_router(auth.router)
+app.include_router(auth_v2.router)
 app.include_router(tentes.router)
 app.include_router(evenements.router)
 app.include_router(reservations.router)
