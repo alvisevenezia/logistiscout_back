@@ -1,6 +1,7 @@
 from datetime import timedelta
 from fastapi import APIRouter, Body, Depends, HTTPException, status
 from sqlalchemy.orm import Session
+from pydantic import BaseModel
 
 from app import models, schemas, database
 from app.security import verify_password, create_access_token, hash_password, ACCESS_TOKEN_EXPIRE_MINUTES
@@ -13,6 +14,10 @@ def get_db():
         db.close()
 
 router = APIRouter()
+class LoginRequest(BaseModel):
+    userlogin: str
+    mdp: str
+
 
 @router.post("/auth/login")
 def login(payload: LoginRequest = Body(...), db: Session = Depends(get_db)):
