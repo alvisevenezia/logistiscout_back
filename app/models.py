@@ -49,6 +49,7 @@ class Groupe(Base):
     userlogin = Column(String, unique=True, nullable=False)  # identifiant de connexion du groupe
     mdp = Column(String, nullable=False)  # mot de passe du groupe
     nom = Column(String, nullable=False)  # nom du groupe
+    email = Column(String, unique=True, nullable=True)  # email du groupe
     membres = Column(ARRAY(String))  # optionnel, liste des membres
 
 class Menu(Base):
