@@ -68,6 +68,6 @@ class EventMenu(Base):
     id = Column(Integer, primary_key=True, index=True)
     event_id = Column(Integer, ForeignKey("evenements.id"), nullable=False)
     menu_id = Column(Integer, ForeignKey("menus.id"), nullable=False)
-    date = Column(Date, nullable=False)
+    day_number = Column(Integer, nullable=False)
     type_repas = Column(String, nullable=False)
     quantite_personnes = Column(Integer)  # optionnel, pour override

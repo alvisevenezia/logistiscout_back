@@ -10,6 +10,35 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 app = FastAPI()
+V1_PREFIXES = (
+    "/tentes",
+    "/evenements",
+    "/reservations",
+    "/controles",
+    "/menus",
+)
+
+@app.middleware("http")
+async def block_v1_routes(request: Request, call_next):
+    path = request.url.path
+
+    # ✅ Always allow v2 + docs
+    if (
+        path.startswith("/v2")
+        or path.startswith("/docs")
+        or path.startswith("/openapi.json")
+        or path.startswith("/redoc")
+    ):
+        return await call_next(request)
+
+    # ❌ Block legacy v1 routes
+    if path.startswith(V1_PREFIXES):
+        raise HTTPException(
+            status_code=status.HTTP_410_GONE,
+            detail="This API version is no longer supported. Please upgrade to v2.",
+        )
+
+    return await call_next(request)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
@@ -26,13 +55,8 @@ async def log_requests(request: Request, call_next):
     return response
 
 # Include routers for all endpoints
-app.include_router(auth.router)
 app.include_router(auth_v2.router, prefix="/v2")
-app.include_router(tentes.router)
 app.include_router(tents_v2.router, prefix="/v2")
-app.include_router(evenements.router)
 app.include_router(events_v2.router, prefix="/v2")
-app.include_router(reservations.router)
-app.include_router(controles.router)
-app.include_router(controls_v2.router, prefix="/v2" )
-app.include_router(menus.router)
+app.include_router(controls_v2.router, prefix="/v2")
+app.include_router(menus_v2.router, prefix="/v2")

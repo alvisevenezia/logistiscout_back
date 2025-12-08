@@ -128,7 +128,7 @@ class Menu(MenuBase):
 class EventMenuBase(BaseModel):
     event_id: int
     menu_id: int
-    date: date
+    day_number: int
     type_repas: str
     quantite_personnes: Optional[int] = None
 
