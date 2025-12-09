@@ -8,6 +8,54 @@ from app.database import get_db
 
 router = APIRouter()
 
+@router.get("/menus", response_model=List[schemas.Menu])
+def list_menus(db: Session = Depends(get_db)):
+    return db.query(models.Menu).all()
+
+@router.post("/menus", response_model=schemas.Menu, status_code=201)
+def create_menu(menu: schemas.MenuCreate, db: Session = Depends(get_db)):
+    # Validation ingrédients (doit être une liste de dicts avec nom, quantite, unite)
+    if menu.ingredients:
+        for ing in menu.ingredients:
+            if not all(k in ing for k in ("nom", "quantite", "unite")):
+                raise HTTPException(status_code=400, detail="Chaque ingrédient doit avoir nom, quantite, unite")
+    db_menu = models.Menu(**menu.dict())
+    db.add(db_menu)
+    db.commit()
+    db.refresh(db_menu)
+    return db_menu
+
+@router.get("/menus/{menu_id}", response_model=schemas.Menu)
+def get_menu(menu_id: int, db: Session = Depends(get_db)):
+    menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
+    if not menu:
+        raise HTTPException(status_code=404, detail="Menu non trouvé")
+    return menu
+
+@router.put("/menus/{menu_id}", response_model=schemas.Menu)
+def update_menu(menu_id: int, menu: schemas.MenuUpdate, db: Session = Depends(get_db)):
+    db_menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
+    if not db_menu:
+        raise HTTPException(status_code=404, detail="Menu non trouvé")
+    if menu.ingredients:
+        for ing in menu.ingredients:
+            if not all(k in ing for k in ("nom", "quantite", "unite")):
+                raise HTTPException(status_code=400, detail="Chaque ingrédient doit avoir nom, quantite, unite")
+    for key, value in menu.dict(exclude_unset=True).items():
+        setattr(db_menu, key, value)
+    db.commit()
+    db.refresh(db_menu)
+    return db_menu
+
+@router.delete("/menus/{menu_id}", status_code=204)
+def delete_menu(menu_id: int, db: Session = Depends(get_db)):
+    menu = db.query(models.Menu).filter(models.Menu.id == menu_id).first()
+    if not menu:
+        raise HTTPException(status_code=404, detail="Menu non trouvé")
+    db.delete(menu)
+    db.commit()
+    return
+
 @router.get("/event_menus", response_model=List[schemas.EventMenu])
 def list_event_menus(
     event_id: int = Query(...),
