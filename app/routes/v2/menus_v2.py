@@ -103,8 +103,7 @@ def update_event_menu(
 ):
     db_event_menu = (
         db.query(models.EventMenu)
-        .filter(models.EventMenu.event_id == event_menu_id)
-        .filter(models.EventMenu.day_number == event_menu.day_number)
+        .filter(models.EventMenu.id == event_menu_id)
         .first()
     )
     if not db_event_menu:
