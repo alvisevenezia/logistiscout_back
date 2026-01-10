@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
 from app import models, schemas, database
-from app.security import verify_password, create_access_token, hash_password, ACCESS_TOKEN_EXPIRE_MINUTES
+from app.security import verify_password, create_access_token, create_refresh_token, hash_password, decode_token, ACCESS_TOKEN_EXPIRE_MINUTES
 
 def get_db():
     db = database.SessionLocal()
@@ -64,3 +64,43 @@ def create_group(groupe: schemas.GroupeCreate, db: Session = Depends(get_db)):
     db.refresh(db_groupe)
 
     return db_groupe
+
+
+class RefreshIn(BaseModel):
+    refresh_token: str
+
+class TokenOut(BaseModel):
+    access_token: str
+    refresh_token: str | None = None
+    token_type: str = "bearer"
+
+@router.post("/auth/refresh", response_model=TokenOut)
+def refresh(payload: RefreshIn):
+    try:
+        claims = decode_token(payload.refresh_token)
+    except JWTError:
+        # expired or invalid
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired refresh token",
+        )
+
+    if claims.get("type") != "refresh":
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Wrong token type",
+        )
+
+    subject = claims.get("sub")
+    if not subject:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token payload",
+        )
+
+    # Optional: check user still exists / active in DB
+
+    new_access = create_access_token({"sub": subject})
+
+    new_refresh = create_refresh_token({"sub": subject})
+    return TokenOut(access_token=new_access, refresh_token=new_refresh)
