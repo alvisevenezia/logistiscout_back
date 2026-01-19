@@ -33,6 +33,7 @@ class TenteBase(BaseModel):
     groupeId: int
     estIntegree: bool = False
     equipe: Optional[str]
+    localisation: Optional[str]
 
 class TenteCreate(TenteBase):
     pass

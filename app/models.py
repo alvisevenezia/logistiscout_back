@@ -15,6 +15,7 @@ class Tente(Base):
     groupeId = Column(Integer, ForeignKey("groupes.id"), index=True)
     estIntegree = Column(Boolean, default=False)  # 0 = False, 1 = True
     equipe = Column(String)
+    localisation = Column(String)
 
 class Evenement(Base):
     __tablename__ = "evenements"
