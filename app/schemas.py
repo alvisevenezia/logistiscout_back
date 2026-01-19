@@ -32,6 +32,7 @@ class TenteBase(BaseModel):
     couleurs: Optional[List[str]] = None
     groupeId: int
     estIntegree: bool = False
+    equipe: Optional[str]
 
 class TenteCreate(TenteBase):
     pass

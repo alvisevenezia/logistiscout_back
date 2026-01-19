@@ -14,6 +14,7 @@ class Tente(Base):
     couleurs = Column(ARRAY(String))
     groupeId = Column(Integer, ForeignKey("groupes.id"), index=True)
     estIntegree = Column(Boolean, default=False)  # 0 = False, 1 = True
+    equipe = Column(String)
 
 class Evenement(Base):
     __tablename__ = "evenements"
