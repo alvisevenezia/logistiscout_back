@@ -1,5 +1,6 @@
 # app/routes/v2/tentes_v2.py
 
+import logging
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
@@ -8,6 +9,7 @@ from app import models, schemas
 from app.database import get_db
 from app.routes.v2.deps import get_current_groupe  # 🔑 pour récupérer le groupe depuis le token
 
+logger = logging.getLogger(__name__)
 router = APIRouter()
 
 
@@ -20,11 +22,23 @@ def list_tentes(
     Retourne uniquement les tentes du groupe lié au token.
     Le client n'a plus besoin d'envoyer groupeId.
     """
-    return (
+    logger.info(f"Fetching tents for groupe ID: {current_groupe.id}")
+    
+    tentes = (
         db.query(models.Tente)
         .filter(models.Tente.groupeId == current_groupe.id)
         .all()
     )
+    
+    logger.info(f"Found {len(tentes)} tents for groupe {current_groupe.id}")
+    if not tentes:
+        logger.warning(f"No tents found for groupe {current_groupe.id}. Checking all tents in DB...")
+        all_tentes = db.query(models.Tente).all()
+        logger.warning(f"Total tents in DB: {len(all_tentes)}")
+        for t in all_tentes:
+            logger.warning(f"  - Tent ID {t.id}: groupeId={t.groupeId}, nom={t.nom}")
+    
+    return tentes
 
 
 @router.post("/tentes", response_model=schemas.Tente, status_code=201)
