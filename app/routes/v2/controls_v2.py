@@ -1,4 +1,7 @@
-from fastapi import APIRouter, HTTPException, Depends, status, Query
+from fastapi import APIRouter, HTTPException, Depends, status, Query, UploadFile, File
+import os
+import time
+from app import storage
 from sqlalchemy.orm import Session
 from typing import List, Optional
 
@@ -139,3 +142,30 @@ def delete_controle(
     db.delete(controle)
     db.commit()
     return
+
+
+@router.post("/controles/{controle_id}/picture", response_model=schemas.Controle)
+async def upload_controle_picture(
+    controle_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_groupe: models.Groupe = Depends(get_current_groupe),
+):
+    """Upload a picture for a controle. The controle must belong to the current groupe."""
+    controle = _get_controle_for_current_groupe(controle_id, db, current_groupe)
+
+    data = await file.read()
+    bucket = os.environ.get("MINIO_BUCKET", "logistiscout-prod")
+    filename = file.filename or f"upload_{int(time.time())}"
+    object_name = f"{current_groupe.id}/{controle_id}/{int(time.time())}_{filename}"
+
+    try:
+        storage.upload_bytes(bucket, object_name, data, content_type=file.content_type)
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Upload failed: {e}")
+
+    url = storage.get_public_url(bucket, object_name)
+    controle.image_url = url
+    db.commit()
+    db.refresh(controle)
+    return controle

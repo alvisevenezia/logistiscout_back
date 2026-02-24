@@ -93,6 +93,7 @@ class ControleBase(BaseModel):
     date: datetime
     checklist: dict
     remarques: Optional[str]
+    image_url: Optional[str] = None
 
 class ControleCreate(ControleBase):
     pass

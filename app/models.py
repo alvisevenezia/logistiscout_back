@@ -44,6 +44,7 @@ class Controle(Base):
     date = Column(DateTime)
     checklist = Column(JSON)
     remarques = Column(Text)
+    image_url = Column(String, nullable=True)
 
 class Groupe(Base):
     __tablename__ = "groupes"
