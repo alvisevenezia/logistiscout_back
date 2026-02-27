@@ -21,6 +21,15 @@ class Groupe(GroupeBase):
     class Config:
         from_attributes = True
 
+class GroupeEmailUpdate(BaseModel):
+    email: str
+
+class GroupeMembersUpdate(BaseModel):
+    membres: List[str]
+
+class GroupeNomUpdate(BaseModel):
+    nom: str
+
 # Tente schemas
 class TenteBase(BaseModel):
     nom: str

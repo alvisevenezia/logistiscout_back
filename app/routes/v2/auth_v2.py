@@ -2,6 +2,7 @@ from datetime import timedelta
 from fastapi import APIRouter, Body, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from jose import JWTError
 
 from app import models, schemas, database
 from app.security import verify_password, create_access_token, create_refresh_token, hash_password, decode_token, ACCESS_TOKEN_EXPIRE_MINUTES
