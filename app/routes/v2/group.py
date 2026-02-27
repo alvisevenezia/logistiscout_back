@@ -13,7 +13,12 @@ def get_me(current_groupe: models.Groupe = Depends(get_current_groupe)):
     """
     Get the current authenticated user's information
     """
-    return current_groupe
+    return {
+        "id": current_groupe.id,
+        "nom": current_groupe.nom,
+        "membres": current_groupe.membres,
+        "email": current_groupe.email
+    }
 
 
 @router.patch("/me/email", response_model=schemas.Groupe)
