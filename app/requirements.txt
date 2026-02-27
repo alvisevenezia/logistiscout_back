@@ -8,5 +8,5 @@ requests
 httpx
 argon2-cffi
 python-jose
-mini
+minio
 python-multipart
