@@ -15,6 +15,27 @@ def get_db():
         db.close()
 
 router = APIRouter()
+
+
+def _to_group_profile(groupe: models.Groupe) -> dict:
+    members_value = groupe.members
+    if members_value is None and groupe.membres is not None:
+        if isinstance(groupe.membres, list):
+            members_value = ", ".join(groupe.membres)
+        else:
+            members_value = str(groupe.membres)
+
+    return {
+        "id": str(groupe.id),
+        "name": groupe.nom,
+        "email": groupe.email,
+        "members": members_value,
+        "login": groupe.userlogin,
+        "type": groupe.type,
+        "units": groupe.units or [],
+    }
+
+
 class LoginRequest(BaseModel):
     userlogin: str
     mdp: str
@@ -45,17 +66,16 @@ def login(payload: LoginRequest = Body(...), db: Session = Depends(get_db)):
         data={"sub": str(groupe.id), "userlogin": groupe.userlogin}
     )
 
+    profile = _to_group_profile(groupe)
     return {
         "access_token": access_token,
         "refresh_token": refresh_token,
         "token_type": "bearer",
-        "id": groupe.id,
-        "nom": groupe.nom,
-        "userlogin": groupe.userlogin,
+        **profile,
     }
 
 
-@router.post("/auth/create_group", response_model=schemas.Groupe, status_code=201)
+@router.post("/auth/create_group", response_model=schemas.GroupeProfile, status_code=201)
 def create_group(groupe: schemas.GroupeCreate, db: Session = Depends(get_db)):
 
     if db.query(models.Groupe).filter(models.Groupe.userlogin == groupe.userlogin).first():
@@ -69,7 +89,7 @@ def create_group(groupe: schemas.GroupeCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_groupe)
 
-    return db_groupe
+    return _to_group_profile(db_groupe)
 
 
 class RefreshIn(BaseModel):

@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import date, datetime
 
@@ -29,6 +29,35 @@ class GroupeMembersUpdate(BaseModel):
 
 class GroupeNomUpdate(BaseModel):
     nom: str
+
+class GroupePutUpdate(BaseModel):
+    nom: Optional[str] = None
+    email: Optional[str] = None
+    membres: Optional[List[str]] = None
+
+class GroupUnit(BaseModel):
+    id: Optional[str] = None
+    name: Optional[str] = None
+
+    class Config:
+        extra = "allow"
+
+class GroupeProfileUpdate(BaseModel):
+    name: Optional[str] = None
+    email: Optional[str] = None
+    members: Optional[str] = None
+    login: Optional[str] = None
+    type: Optional[str] = None
+    units: Optional[List[GroupUnit]] = None
+
+class GroupeProfile(BaseModel):
+    id: str
+    name: str
+    email: Optional[str] = None
+    members: Optional[str] = None
+    login: str
+    type: Optional[str] = None
+    units: List[GroupUnit] = Field(default_factory=list)
 
 # Tente schemas
 class TenteBase(BaseModel):

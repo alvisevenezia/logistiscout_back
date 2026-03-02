@@ -54,6 +54,9 @@ class Groupe(Base):
     nom = Column(String, nullable=False)  # nom du groupe
     email = Column(String, unique=True, nullable=True)  # email du groupe
     membres = Column(ARRAY(String))  # optionnel, liste des membres
+    members = Column(String, nullable=True)
+    type = Column(String, nullable=True)
+    units = Column(JSON, nullable=True)
 
 class Menu(Base):
     __tablename__ = "menus"
